@@ -48,7 +48,6 @@ setup(
         'Operating System :: Unix',
         'Operating System :: POSIX',
         'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Topic :: Utilities',
@@ -65,15 +64,5 @@ setup(
     install_requires=[
         'tornado', 'traitlets', 'notebook', 'ipython_genutils', 'nbformat',
         'pyarrow'  # HDFS Support
-    ],
-    extras_require={
-        # eg:
-        #   'rst': ['docutils>=0.11'],
-        #   ':python_version=="2.6"': ['argparse'],
-    },
-    entry_points={
-        'console_scripts': [
-            'jupyter-omnicm = jupyter_omnicm.cli:main',
-        ]
-    },
+    ]
 )
