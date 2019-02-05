@@ -2,48 +2,41 @@
 import mimetypes
 
 import nbformat
+import pyarrow as pa
+from notebook import _tz as tz
 from notebook.services.contents.manager import ContentsManager
 from pyarrow.hdfs import HadoopFileSystem
 from tornado import web
-from traitlets import Unicode, default, Instance, Integer, Dict
+from traitlets import Dict
+from traitlets import Instance
+from traitlets import Integer
+from traitlets import Unicode
+from traitlets import default
 
 from .hdfs_checkpoints import HDFSCheckpoints
 from .hdfs_io import HDFSManagerMixin
-
-try:  # new notebook
-    from notebook import _tz as tz
-except ImportError: # old notebook
-    from notebook.services.contents import tz
-
-try:
-    from os.path import samefile
-except ImportError:
-    # windows + py2
-    from notebook.utils import samefile_simple as samefile
-
-import pyarrow as pa
 
 _script_exporter = None
 
 
 class HDFSContentsManager(HDFSManagerMixin, ContentsManager):
 
-    host: str            = Unicode(u'default', config=True, help="NameNode. Set to 'default' for fs.defaultFS from core-site.xml. Default 'default'.")
-    port: int            = Integer(0, config=True, help="NameNode's port. Set to 0 for default or logical (HA) nodes. Default 0.")
-    user: str            = Unicode(u'', config=True, help='Username when connecting to HDFS; None implies login user. Default None.')
-    kerb_ticket: str     = Unicode(u'', config=True, help='Path to Kerberos ticket cache. Default None.')
-    driver: str          = Unicode(u'libhdfs', config=True, help="Connect using 'libhdfs' (JNI-based) or 'libhdfs3' (3rd-party C++ library). Default 'libhdfs'.")
-    extra_conf: dict     = Dict({}, config=True, help='extra Key/Value pairs for config; Will override any hdfs-site.xml properties. Default None.')
-    fs: HadoopFileSystem = Instance(HadoopFileSystem, config=True, help="HDFS connection. Setup automatically based on the other parameters. Do not set manually.")
-    root_dir: str        = Unicode(config=True)
+    host: str = Unicode(u'default', config=True, help="NameNode. Set to 'default' for fs.defaultFS from core-site.xml. Default 'default'.")
+    port: int = Integer(0, config=True, help="NameNode's port. Set to 0 for default or logical (HA) nodes. Default 0.")
+    user: str = Unicode(u'', config=True, help='Username when connecting to HDFS; None implies login user. Default None.')
+    kerb_ticket: str = Unicode(u'', config=True, help='Path to Kerberos ticket cache. Default None.')
+    driver: str = Unicode(u'libhdfs', config=True,
+                          help="Connect using 'libhdfs' (JNI-based) or 'libhdfs3' (3rd-party C++ library). Default 'libhdfs'.")
+    extra_conf: dict = Dict(
+        {}, config=True, help='extra Key/Value pairs for config; Will override any hdfs-site.xml properties. Default None.')
+    fs: HadoopFileSystem = Instance(HadoopFileSystem, config=True,
+                                    help="HDFS connection. Setup automatically based on the other parameters. Do not set manually.")
+    root_dir: str = Unicode(config=True)
 
     @default('root_dir')
     def _default_root_dir(self):
-        try:
-            nb_dir = self.parent.notebook_dir
-            return self.fs.info(nb_dir)['path']
-        except:
-            return self.fs.info('.')['path']
+        nb_dir = self.parent.notebook_dir
+        return self.fs.info(nb_dir)['path']
 
     @default('fs')
     def _default_fs(self):
@@ -199,13 +192,13 @@ class HDFSContentsManager(HDFSManagerMixin, ContentsManager):
 
     def get(self, path, content=True, type=None, format=None):
         """Get a file or directory model."""
-        if not type: # Infers the type if not specified.
+        if not type:  # Infers the type if not specified.
             fs_path = self._to_fs_path(path)
             if not self.fs.exists(fs_path):
                 raise web.HTTPError(400, f'{path} does not exist')
             info = self.fs.info(fs_path)
             type = info[u'kind']
-        if path.endswith('.ipynb'): # fix type with notebook special case.
+        if path.endswith('.ipynb'):  # fix type with notebook special case.
             type = 'notebook'
         if type == 'directory':
             model = self.__get_dir(path, content=content)

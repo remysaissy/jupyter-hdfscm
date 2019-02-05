@@ -2,27 +2,18 @@
 Utilities for HDFS-based Contents/Checkpoints managers.
 """
 
+import os
+import tempfile
 import uuid
+from base64 import decodebytes
+from base64 import encodebytes
 from contextlib import contextmanager
 
-from notebook.utils import to_os_path, to_api_path
-
-try:  # new notebook
-    from notebook import _tz as tz
-except ImportError: # old notebook
-    from notebook.services.contents import tz
-import os
-
 import nbformat
-import tempfile
+from notebook.utils import to_api_path
+from notebook.utils import to_os_path
 from tornado.web import HTTPError
 from traitlets.config import Configurable
-
-try: #PY3
-    from base64 import encodebytes, decodebytes
-except ImportError: #PY2
-    from base64 import encodestring as encodebytes, decodestring as decodebytes
-
 
 
 class HDFSManagerMixin(Configurable):
