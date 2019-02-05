@@ -62,6 +62,8 @@ jupyter-omnicm is a flexible content manager system for Jupyter notebooks.
 
 * Free software: Apache Software License 2.0
 
+It currently supports the HDFS Content Manager.
+
 Installation
 ============
 
