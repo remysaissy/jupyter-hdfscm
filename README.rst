@@ -39,9 +39,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.org/project/jupyter-omnicm
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/remysaissy/jupyter-omnicm/v0.0.1.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/remysaissy/jupyter-omnicm/v0.0.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/remysaissy/jupyter-omnicm/compare/v0.0.1...master
+    :target: https://github.com/remysaissy/jupyter-omnicm/compare/v0.0.0...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/jupyter-omnicm.svg
     :alt: PyPI Wheel
@@ -61,6 +61,8 @@ Overview
 jupyter-omnicm is a flexible content manager system for Jupyter notebooks.
 
 * Free software: Apache Software License 2.0
+
+It currently supports the HDFS Content Manager.
 
 Installation
 ============
