@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 
 setup(
     name='jupyter-omnicm',
-    version='0.0.2',
+    version='0.0.3',
     license='Apache Software License 2.0',
     description='jupyter-omnicm is a flexible content manager system for Jupyter notebooks.',
     long_description='%s\n%s' % (
