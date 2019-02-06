@@ -26,7 +26,7 @@ project = 'jupyter-omnicm'
 year = '2019'
 author = 'Rémy Saissy'
 copyright = '{0}, {1}'.format(year, author)
-version = release = '0.0.1'
+version = release = '0.0.2'
 
 pygments_style = 'trac'
 templates_path = ['.']
