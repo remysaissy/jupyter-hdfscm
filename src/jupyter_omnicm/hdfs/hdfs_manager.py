@@ -35,8 +35,11 @@ class HDFSContentsManager(HDFSManagerMixin, ContentsManager):
 
     @default('root_dir')
     def _default_root_dir(self):
-        nb_dir = self.parent.notebook_dir
-        return self.fs.info(nb_dir)['path']
+        try:
+            nb_dir = self.parent.notebook_dir
+            return self.fs.info(nb_dir)['path']
+        except pa.lib.ArrowIOError:
+            return self.fs.info('.')['path']
 
     @default('fs')
     def _default_fs(self):
