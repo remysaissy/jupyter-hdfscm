@@ -48,7 +48,7 @@ setup(
         'Operating System :: Unix',
         'Operating System :: POSIX',
         'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Topic :: Utilities',
@@ -61,7 +61,7 @@ setup(
     keywords=[
         'hdfs', 'jupyter'
     ],
-    python_requires='!=2.7.*, >=3.6',
+    python_requires='>=3.6',
     install_requires=[
         'tornado', 'traitlets', 'notebook', 'ipython_genutils', 'nbformat',
         'pyarrow'  # HDFS Support
